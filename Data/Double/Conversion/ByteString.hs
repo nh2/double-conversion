@@ -32,6 +32,8 @@ import Foreign.C.Types (CDouble, CInt)
 import Foreign.Ptr (Ptr)
 import System.IO.Unsafe (unsafePerformIO)
 
+import Debug.Trace
+
 -- | Compute a representation in exponential format with the requested
 -- number of digits after the decimal point. The last emitted digit is
 -- rounded.  If -1 digits are requested, then the shortest exponential
@@ -50,10 +52,11 @@ toFixed ndigits = convert "toFixed" len $ \val mba ->
   where len = c_ToFixedLength
         {-# NOINLINE len #-}
 
+
 -- | Compute the shortest string of digits that correctly represent
 -- the input number.
 toShortest :: Double -> ByteString
-toShortest = convert "toShortest" len c_ToShortest
+toShortest = convert "toShortest" len (\val ptr -> traceShow ("val", val) $ c_ToShortest val ptr)
   where len = c_ToShortestLength
         {-# NOINLINE len #-}
 

@@ -1,6 +1,7 @@
 #include "double-conversion.h"
 #include "hs-double-conversion.h"
 #include <stdio.h>
+#include <iostream>
 
 using namespace double_conversion;
 
@@ -71,6 +72,16 @@ extern "C"
 int _hs_ToShortest(double value, char *buf)
 {
   StringBuilder builder(buf, kToShortestLength);
+  std::cerr << "value = "
+            << value
+
+            << std::endl;
+  // std::cerr << "defaultConverter().ToShortest(value, &builder) = "
+  //           << defaultConverter().ToShortest(value, &builder)
+  //           << std::endl;
+  std::cerr << "builder = "
+            << builder.Finalize()
+            << std::endl;
   return defaultConverter().ToShortest(value, &builder)
     ? builder.position() : -1;
 }
